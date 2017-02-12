@@ -11,6 +11,23 @@
 #include <ESP8266WiFi.h>
 #include "TimeClient.h"
 
+// ***************************************************************************
+// Load library "ticker" for blinking status led
+// ***************************************************************************
+#include <Ticker.h>
+Ticker ticker;
+
+void tick()
+{
+  //toggle state
+  int state = digitalRead(BUILTIN_LED);  // get the current state of GPIO1 pin
+  digitalWrite(BUILTIN_LED, !state);     // set pin to the opposite state
+}
+
+
+
+
+
 //Define the ESP8266 PIN used for data on the ring
 #define PIN D1 
 long lastUpdate = millis();
@@ -33,6 +50,8 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   Serial.println(WiFi.softAPIP());
 
   Serial.println(myWiFiManager->getConfigPortalSSID());
+  //entered config mode, make led toggle faster
+  ticker.attach(0.2, tick);
 }
 
 
@@ -41,7 +60,12 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println();
-
+  
+  // set builtin led pin as output
+  pinMode(BUILTIN_LED, OUTPUT);
+  // start ticker with 0.5 because we start in AP mode and try to connect
+  ticker.attach(0.6, tick);
+  
   strip.begin();
   strip.setBrightness(128);
   strip.show();
@@ -54,6 +78,8 @@ void setup()
   wifiManager.autoConnect();
 
 
+ticker.detach();
+  //keep LED on
   digitalWrite(BUILTIN_LED, LOW);
 
   timeClient.updateTime();
