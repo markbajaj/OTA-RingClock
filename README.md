@@ -1,6 +1,6 @@
-# Project Name
+# LED Ring Clock ESP8266 Arduino
 
-LED Ring Clock ESP8266 Arduino
+
 
 ## Installation
 
