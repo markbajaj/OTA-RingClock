@@ -152,9 +152,9 @@ void updateTime()
   minutes = timeClient.getMinutes();
   seconds = timeClient.getSeconds();
   currentHour = hours.toInt();
-  if (currentHour = 12) currentHour = 12;
+ // if (currentHour = 12) currentHour = 12;
   if (currentHour > 12) currentHour = currentHour - 12;
-  if (currentHour = 0) currentHour = 12;
+ // if (currentHour = 0) currentHour = 12;
   currentMinute = minutes.toInt();
   currentSecond = seconds.toInt();
   lastUpdate = millis();
